@@ -14,6 +14,8 @@ function checkUrl(url) {
 }
 
 async function check(content, next) {
+    // 追加日志
+    console.addLogs(content.url);
     if (/^\/uploads/g.test(content.url)) {
         await next();
         console.log('静态资源访问路径');

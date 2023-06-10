@@ -5,8 +5,16 @@ const userRouter = require('../src/routes/route');
 const checkToken = require('../src/middleware/checkToken');
 const staticFiles = require('koa-static');
 const path = require('path');
+const cors = require('@koa/cors');
 const app = new Koa();
-
+// 跨域设置
+app.use(
+    cors({
+        origin: '*',
+        maxAge: 2592000,
+        credentials: true
+    })
+);
 // token检查中间件
 app.use(checkToken);
 // 设置静态资源访问

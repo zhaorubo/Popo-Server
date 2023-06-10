@@ -126,6 +126,13 @@ const articleController = {
             paramsOrBody.call(ctx, 1);
             let body = { ...ctx.request.body };
             whetherHave(body, ['id', 'title', 'content']);
+            let category = await sql.table('category_table').where({ label: body.category }).select(true).exec();
+            if (!category.length) {
+                changeStateAndReturnBody.call(ctx, 400, {
+                    tips: '没有这个类目'
+                });
+                return;
+            }
             /** 如果有上传的文章封面则生成url */
             if (ctx.request.files) {
                 const { fieldname, filename, destination } = ctx.request.files[0];
@@ -138,13 +145,13 @@ const articleController = {
             let updateArt = await sql.table('article_table').where({ id: ctx.request.body.id }).select(true).exec();
             // 判断数据库是否有更新成功的row
             if (!updateResult.affectedRows) {
-                changeStateAndReturnBody.call(ctx, 401, {
-                    msg: '没有这篇文章'
+                changeStateAndReturnBody.call(ctx, 400, {
+                    tips: '没有这篇文章'
                 });
                 return;
             } else {
                 changeStateAndReturnBody.call(ctx, 200, {
-                    tips: 'sccuess',
+                    tips: '更新成功',
                     article: updateArt[0]
                 });
             }

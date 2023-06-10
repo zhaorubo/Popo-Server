@@ -1,7 +1,7 @@
 const { selectQuery, insertIntoQuery } = require('../service');
 const jwt = require('jsonwebtoken');
 const { user } = require('../service/sentence');
-const { changeStateAndReturnBody, paramsOrBody } = require('../utils/utils');
+const { changeStateAndReturnBody, paramsOrBody, whetherHave } = require('../utils/utils');
 const { sql } = require('mysqls');
 const { mode } = require('../../config/config.default');
 const { isEmpty } = require('lodash');
@@ -17,6 +17,7 @@ const userController = {
         try {
             paramsOrBody.call(ctx, 1);
             const data = ctx.request.body;
+            whetherHave(data, ['password', 'account']);
             const accountStatus = await sql.table('login_table').where({ account: data.account }).select(true).exec();
             let result = await sql.table('login_table').where(data).select(true).exec();
             if (accountStatus.length === 0) {
@@ -31,8 +32,7 @@ const userController = {
                 });
                 return;
             }
-            const article = await sql.table('article_table').where({ author_id: result[0].author_id }).select(true).exec();
-            result[0]['article'] = article;
+            // const article = await sql.table('article_table').where({ author_id: result[0].author_id }).select(true).exec();
             const token = createToken(result[0]);
             changeStateAndReturnBody.call(ctx, 200, {
                 tips: '登陆成功',
@@ -51,6 +51,7 @@ const userController = {
         try {
             // paramsOrBody.call(ctx, 1);
             const data = ctx.request.body;
+            whetherHave(data, ['user_name', 'account', 'password']);
             const randomNumber = Math.floor(Math.random() * 400);
             let imageUrl;
             if (!isEmpty(ctx.request.files)) {

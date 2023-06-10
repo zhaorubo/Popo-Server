@@ -1,4 +1,4 @@
-const { throttle } = require('lodash');
+const dayjs = require('dayjs');
 const { isEmpty, isObject, isArray } = require('lodash');
 const fs = require('fs'); // 导入 fs 模块
 const path = require('path'); // 导入 path 模块
@@ -86,6 +86,9 @@ function whetherHave(userParams, hopeParams) {
         isArray(hopeParams) || throwTypeError('这必须是一个数组');
     }
     for (let i = 0; i < hopeParams.length; i++) {
+        if (hopeParams[i] === '' || hopeParams[i] === undefined || hopeParams[i] == null) {
+            throwRangeError(`属性${hopeParams[i]}不能为空`);
+        }
         let bool = userParams.hasOwnProperty(hopeParams[i]);
         bool || throwRangeError(`缺少属性：${hopeParams[i]}`);
         if (!bool) return false;
@@ -173,6 +176,23 @@ function paramsOrBody(type) {
     }
 }
 
+/**
+ * 新添日志
+ * @param {string} log 需要存储的日志内容
+ * console.addLogs()调用
+ */
+
+// 封装一个  console.addLogs().url('url')的调用方式的储存log的函数
+const os = require('os');
+console.addLogs = function (lo) {
+    // content
+    let nowDate = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    let content = `${nowDate}-->${lo}`;
+    // append log
+    fs.appendFile(path.join(__dirname, '../../logs/logs.txt'), content + os.EOL, { flag: 'a' }, err => {
+        console.log(err);
+    });
+};
 module.exports = {
     selectKeysAndValues,
     changeStateAndReturnBody,

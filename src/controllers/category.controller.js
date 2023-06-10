@@ -90,7 +90,7 @@ const categoryController = {
     async deleteCategory(ctx) {
         try {
             paramsOrBody.call(ctx, 0);
-            let body = { ...ctx.query };
+            let body = { ...ctx.query, ...ctx.request.body };
             whetherHave(body, ['id']);
             let result = await sql.table('category_table').where(body).delet(true).exec();
             if (!result.affectedRows) {
@@ -126,7 +126,7 @@ const categoryController = {
             // 修改所属的所有文章
             let updateArticleInfo = await sql.table('article_table').data({ category: body.label }).where({ category: categoryInfo.label }).update(true).exec();
             // 修改类目
-            let result = await sql.table('category_table').data(body).where({ label: body.label }).update(true).exec();
+            let result = await sql.table('category_table').data(body).where({ id: body.id }).update(true).exec();
             if (!result.affectedRows) {
                 changeStateAndReturnBody.call(ctx, 400, {
                     tips: '没有这条类目'
