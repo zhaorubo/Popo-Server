@@ -8,13 +8,17 @@ export default class BaseModel {
         init(this._config);
     }
     private _config = {
-        host: '',
-        user: '',
-        password: '',
-        database: ''
+        host: '127.0.0.1',
+        user: 'root',
+        password: '200083',
+        database: 'blog_data',
+        port: 3306
     };
-    protected insert() {}
-    protected where() {}
+    protected async insert() {}
+    public async where() {
+        let result = await sql.table('category_table').where({ id: 1 }).select(true).exec();
+        return result;
+    }
     protected delet() {}
     protected update() {}
 }

@@ -1,10 +1,6 @@
 import Router from 'koa-router';
 const router = new Router();
-
-/** 路由的枚举 */
-export enum ApiType {
-    USER = '/'
-}
+import { UserApi } from '../config/types.ts';
 
 /** 业务入口模块导入 */
 import userApi from '../api/userApi.ts';
@@ -15,7 +11,7 @@ export class RegRoutes {
         this.reg();
     }
     private static _ins: RegRoutes;
-    private _routes: Map<{ method: string; path: ApiType }, Function>;
+    private _routes: Map<{ method: string; path: string }, Function>;
     public static ins(): RegRoutes {
         if (!this._ins) {
             this._ins = new RegRoutes();
@@ -29,7 +25,7 @@ export class RegRoutes {
 
     /** 用户路由注册 */
     private regUserRoute() {
-        this._routes.set({ method: 'get', path: ApiType.USER }, userApi[ApiType.USER]);
+        this._routes.set({ method: 'get', path: UserApi.LOGIN }, userApi[UserApi.LOGIN]);
     }
 
     public init(): void {

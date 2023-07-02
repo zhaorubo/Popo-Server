@@ -12,8 +12,9 @@ export default class UserModel extends BaseModel {
         this._baseModel = baseModel;
     }
     private _baseModel: BaseModel;
-    public getUserData() {
-        console.log('getUserData');
-        return 'getUserData';
+    public async getUserData() {
+        let result = await this._baseModel.where();
+        console.log(result);
+        return result;
     }
 }
