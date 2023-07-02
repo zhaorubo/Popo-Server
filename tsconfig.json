@@ -1,0 +1,23 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "module": "ES2015", // 写入的语言
+        "target": "ES2020", // 编译的目标语言
+        "moduleResolution": "Node",
+        "outDir": "./dist", // 输出文件夹
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "experimentalDecorators": true,
+        // "noImplicitAny": false,
+        "emitDecoratorMetadata": true,
+        "allowImportingTsExtensions": true, // 允许使用.ts后缀导入
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true, // 允许默认导出
+        "esModuleInterop": true, // 允许esModule模块
+        // "baseUrl": "."
+    },
+    "include": ["./src/**/*"],
+    "ts-node": {
+        "esm": true, // 设置为.ts文件编译
+    }
+}
