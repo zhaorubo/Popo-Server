@@ -14,11 +14,15 @@ export default class BaseModel {
         database: 'blog_data',
         port: 3306
     };
+    // 插入
     protected async insert() {}
+    // 查找
     public async where() {
         let result = await sql.table('category_table').where({ id: 1 }).select(true).exec();
         return result;
     }
+    // 删除
     protected delet() {}
+    // 更新
     protected update() {}
 }

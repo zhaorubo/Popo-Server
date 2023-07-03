@@ -730,10 +730,10 @@ mysql2@^2.2.5:
     seq-queue "^0.0.5"
     sqlstring "^2.3.2"
 
-mysqls@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.npmmirror.com/mysqls/-/mysqls-1.2.2.tgz#e1a62ac8f86fb925ac6c5b522e584fdfdd2708cf"
-  integrity sha512-YnQHb6oZ39r3IkeojYtdbpbJDVk7cp3MFV08ynqrRkN2TDNJEfIeVrnUeIevV5WBppEUqID8h+sZzaOKzZR8RQ==
+mysqls@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npmmirror.com/mysqls/-/mysqls-1.2.0.tgz#298946ef9018e2e624bc43d182fa550a191affb7"
+  integrity sha512-UDc/sZeRHNWfjk8vR8HPlZlnyrwdWdyzNr2lmCUPibA+YJ5135favVo7waoLBdUDsihkRyrAWtT/BNRkNclQfQ==
   dependencies:
     mysql2 "^2.2.5"
     sqlstring "^2.3.2"
