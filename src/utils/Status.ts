@@ -21,6 +21,7 @@ export class Status {
         this.message = '不存在';
         return 410;
     }
+
     /** 未满足前提条件 */
     public static get NOT_MEET_WITH(): number {
         this.message = '未满足前提条件';
