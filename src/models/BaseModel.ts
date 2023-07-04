@@ -5,9 +5,12 @@ import { Service } from 'typedi';
 @Service()
 export default class BaseModel {
     constructor() {
+        // init(this._config);
+    }
+    public static init() {
         init(this._config);
     }
-    private _config = {
+    private static _config = {
         host: '127.0.0.1',
         user: 'root',
         password: '200083',
@@ -17,8 +20,8 @@ export default class BaseModel {
     // 插入
     protected async insert() {}
     // 查找
-    public async where() {
-        let result = await sql.table('category_table').where({ id: 1 }).select(true).exec();
+    public async where(data: any) {
+        let result = await sql.table('category_table').where(data).select(true).exec();
         return result;
     }
     // 删除

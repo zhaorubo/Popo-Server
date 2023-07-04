@@ -13,7 +13,7 @@ export default class UserModel extends BaseModel {
     }
     private _baseModel: BaseModel;
     public async getUserData() {
-        let result = await this._baseModel.where();
+        let result = await this._baseModel.where({ id: 1 });
         return result;
     }
 }

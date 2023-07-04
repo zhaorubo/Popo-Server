@@ -12,7 +12,7 @@ export default class UserService {
     }
     private userModel: UserModel;
     public async Signup(user) {
-        user = this.userModel.getUserData();
+        user = await this.userModel.getUserData();
         return { user, code: Status.SUCCESS };
     }
 }
