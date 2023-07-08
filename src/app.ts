@@ -2,6 +2,8 @@ import 'reflect-metadata';
 import Koa from 'koa';
 import koaBodyParser from 'koa-bodyparser';
 import router from './routes/routes.ts';
+import CreateTable from './utils/CreateTable.ts';
+import BaseModel from './models/BaseModel.ts';
 class App {
     constructor() {
         this.init();

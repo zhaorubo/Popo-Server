@@ -7,9 +7,12 @@ import { QueryUser, UserDataKeys } from '../types/user';
 @Service()
 export default class BaseModel {
     constructor() {
+        // init(this._config);
+    }
+    public static init() {
         init(this._config);
     }
-    private _config = {
+    private static _config = {
         host: '127.0.0.1',
         user: 'root',
         password: '200083',
