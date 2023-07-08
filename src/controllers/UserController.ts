@@ -38,6 +38,7 @@ export default class UserController extends Controller {
         return user;
     }
     /** 注册 */
+    @(routeParameterDecorator<RegisterRequestData>)
     public async regIster(ctx: RouterContext) {
         let notKeys: string[] | null = this.checkKeys<RegisterRequestData>(this._params, ['loginId', 'password', 'user_name']);
         if (!notKeys) {
