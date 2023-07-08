@@ -1,9 +1,10 @@
-import { Service } from 'typedi';
+import { LoginRequestData, RegisterRequestData } from '../types/user';
 import UserService from '../services/UserService.ts';
+import routeParameterDecorator from '../decorators/routeParameterDecorator.ts';
+import { Service } from 'typedi';
 import { RouterContext } from 'koa-router';
 import { Response } from '../types/project';
 import { Status } from '../utils/Status.ts';
-import { LoginRequestData, RegisterRequestData } from '../types/user';
 import Controller from './Controller.ts';
 
 @Service()
@@ -15,16 +16,16 @@ export default class UserController extends Controller {
     }
     private _userService: UserService;
 
-    public async signUp(ctx: RouterContext) {
+    @routeParameterDecorator
+    public async signUp(ctx: RouterContext, params: LoginRequestData = {} as LoginRequestData) {
         // 路由层实际负责的
-        const reqData: LoginRequestData = ctx.body as LoginRequestData;
         // 查找有无字段
-        let notKeys: string[] | null = this.checkKeys<LoginRequestData>(reqData, ['loginId', 'password']);
+        let notKeys: string[] | null = this.checkKeys<LoginRequestData>(params, ['loginId', 'password']);
         if (!notKeys) {
             // 有没传的字段
             return this.reponseNotData<Response<Status>>(notKeys);
         }
-        const user = await this._userService.signup(reqData);
+        const user = await this._userService.signup(params);
         // 返回一个响应到客户端
         return user;
     }
