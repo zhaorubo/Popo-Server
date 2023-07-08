@@ -16,7 +16,9 @@
         "esModuleInterop": true, // 允许esModule模块
         // "baseUrl": "."
     },
-    "include": ["./src/**/*"],
+    "include": [
+        "./src/**/*"
+    ],
     "ts-node": {
         "esm": true, // 设置为.ts文件编译
     }
