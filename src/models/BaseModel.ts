@@ -1,5 +1,6 @@
 import { init, exec, sql, transaction } from 'mysqls';
 import { Service } from 'typedi';
+import { DataTable } from '../config/datatable';
 
 /** 数据库在这里接入 */
 @Service()
@@ -20,8 +21,8 @@ export default class BaseModel {
     // 插入
     protected async insert() {}
     // 查找
-    public async where(data: any) {
-        let result = await sql.table('users_table').where(data).select(true).exec();
+    public async where(table: DataTable, data: any) {
+        let result = await sql.table(table).where(data).select(true).exec();
         return result;
     }
     // 删除
