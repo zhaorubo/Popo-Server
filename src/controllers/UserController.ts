@@ -1,7 +1,6 @@
 import { Service } from 'typedi';
 import UserService from '../services/UserService.ts';
 import { RouterContext } from 'koa-router';
-import { UserResponse, UserResquest } from '../types/project';
 import { Status } from '../utils/Status.ts';
 import Controller from './Controller.ts';
 import { Response } from '../types/project';
@@ -44,8 +43,7 @@ export default class UserController extends Controller {
         if (!notKeys) {
             return this.reponseNotData<Response<Status>>(notKeys);
         }
-        const result = await this._userService.Register(this._params);
-        return result;
+        return await this._userService.Register(this._params);
     }
 
     /** 检测接收账号合规 */

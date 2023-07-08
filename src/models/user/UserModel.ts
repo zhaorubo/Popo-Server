@@ -21,7 +21,7 @@ export default class UserModel extends BaseModel {
         return result;
     }
     /** 查询 */
-    public async getUserData(reqData: Promise<any> | UserResquest, DataTable: string) {
+    public async getUserData(reqData: Promise<any> | UserResquest, DataTable: string): Promise<UserData> {
         let result = await this._baseModel.where(DataTable, reqData);
         return result;
     }

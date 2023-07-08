@@ -60,6 +60,7 @@ export class UserStatus extends Status {
         this.message = '60秒不能重复发送';
         return 240002;
     }
+    /** 账号已经存在 */
     public static get ACCOUNT_REPEAT(): number {
         this.message = '账号已经存在';
         return 250001;

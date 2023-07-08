@@ -32,7 +32,7 @@ export class RegRoutes {
         // 登出
         this._routes.set({ method: 'post', path: UserApi.LOGOUT }, userApi[UserApi.LOGOUT]);
         // 注册
-        this._routes.set({ method: 'post', path: UserApi.REGISTER }, userApi[UserApi.REGISTER]);
+        this._routes.set({ method: 'get', path: UserApi.REGISTER }, userApi[UserApi.REGISTER]);
         // 更新
         this._routes.set({ method: 'put', path: UserApi.UPDATE_USER }, userApi[UserApi.UPDATE_USER]);
         // 获取详情
