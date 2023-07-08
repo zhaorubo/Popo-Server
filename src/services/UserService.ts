@@ -7,11 +7,11 @@ import { Status, UserStatus } from '../utils/Status.ts';
 // 业务逻辑层
 @Service()
 export default class UserService {
-    // 登陆
     constructor(userModel: UserModel) {
         this.userModel = userModel;
     }
     private userModel: UserModel;
+    // 登陆
     public async Login(reqData: UserResquest | Promise<any>) {
         let user = this.userModel.getUserData(reqData, DataTable[DataTable.USERINFO_TABLE]);
         return { user, code: Status.SUCCESS };

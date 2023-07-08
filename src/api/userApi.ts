@@ -16,5 +16,5 @@ export default {
         let userController = Container.get(UserController);
         ctx.body = await userController.regIster(ctx);
         return;
-    },
+    }
 };
