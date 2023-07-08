@@ -14,7 +14,7 @@ export default class UserService {
     // 登陆
     public async Login(reqData: UserResquest | Promise<any>) {
         let user = this.userModel.getUserData(reqData, DataTable[DataTable.USERINFO_TABLE]);
-        return { user, code: Status.SUCCESS };
+        return { user, code: Status.SUCCESS, prompt: Status.message };
     }
     public async Register(subData: UserResquest | Promise<any>) {
         let result: any;

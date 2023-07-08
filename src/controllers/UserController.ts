@@ -33,7 +33,7 @@ export default class UserController extends Controller {
             // 有没传的字段
             return this.reponseNotData<Response<Status>>(notKeys);
         }
-        const user = await this._userService.Login(this._params);
+        const user: Response<UserData> = await this._userService.Login(this._params);
         // 返回一个响应到客户端
         return user;
     }
@@ -49,9 +49,9 @@ export default class UserController extends Controller {
     }
 
     /** 检测接收账号合规 */
-    private checkAccountNumber(reqData: UserResquest): boolean {
-        if (!reqData) return false;
+    // private checkAccountNumber(reqData: UserResquest): boolean {
+    //     if (!reqData) return false;
 
-        return true;
-    }
+    //     return true;
+    // }
 }
