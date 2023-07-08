@@ -12,18 +12,32 @@ export default class UserController {
     }
     private _userService: UserService;
 
-    public async signUp(ctx: RouterContext) {
+    /** 登录 */
+    public async logIn(ctx: RouterContext) {
         // 路由层实际负责的
-        const reqData: UserResquest = ctx.body as UserResquest;
+        const reqData: UserResquest = ctx.request.body as UserResquest;
         if (!this.checkKeys(reqData)) {
             return {
                 code: Status.NOT_MEET_WITH,
                 prompt: Status.message
             } as UserResponse;
         }
-        const user = await this._userService.Signup(reqData);
+        const result = await this._userService.Login(reqData);
+
         // 返回一个响应到客户端
-        return user;
+        return result;
+    }
+    /** 注册 */
+    public async regIster(ctx: RouterContext) {
+        const subData: UserResquest = ctx.request.body as UserResquest;
+        if (!this.checkKeys(subData)) {
+            return {
+                code: Status.NOT_MEET_WITH,
+                prompt: Status.message
+            } as UserResponse;
+        }
+        const result = await this._userService.Register(subData);
+        return result;
     }
 
     /** 检查请求字段 */
@@ -38,4 +52,11 @@ export default class UserController {
         }
         return true;
     }
+    /** 检测接收账号合规 */
+    private checkAccountNumber(reqData: UserResquest): boolean {
+        if (!reqData) return false;
+
+        return true;
+    }
+    /** 60秒不能重复发送 */
 }

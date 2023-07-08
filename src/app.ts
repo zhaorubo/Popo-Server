@@ -10,8 +10,8 @@ class App {
     private init(): void {
         try {
             this._app = new Koa();
-            this._app.use(router.routes());
             this._app.use(koaBodyParser());
+            this._app.use(router.routes());
             console.log('服务初始化成功');
         } catch {
             console.log('服务初始化失败');

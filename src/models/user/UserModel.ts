@@ -4,6 +4,7 @@
  */
 import { Service } from 'typedi';
 import BaseModel from '../BaseModel.ts';
+import { UserResquest } from '../../types/project';
 
 @Service()
 export default class UserModel extends BaseModel {
@@ -12,8 +13,24 @@ export default class UserModel extends BaseModel {
         this._baseModel = baseModel;
     }
     private _baseModel: BaseModel;
-    public async getUserData() {
-        let result = await this._baseModel.where();
+    // 插入
+    public async insUserData(subData: any, DataTable: string) {
+        let result = await this._baseModel.insert(DataTable, subData);
+        return result;
+    }
+    // 查询 
+    public async getUserData(reqData: Promise<any> | UserResquest, DataTable: string) {
+        let result = await this._baseModel.where(DataTable, reqData);
+        return result;
+    }
+    // 删除
+    public async delUserData(reqData: Promise<any> | UserResquest, DataTable: string) {
+        let result = await this._baseModel.delete(DataTable, reqData);
+        return result;
+    }
+    // 更新
+    public async updUserData(reqData: Promise<any> | UserResquest, subData: any, DataTable: string) {
+        let result = await this._baseModel.update(DataTable, subData, reqData);
         return result;
     }
 }

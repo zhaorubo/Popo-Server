@@ -1,5 +1,6 @@
 import { init, exec, sql, transaction } from 'mysqls';
 import { Service } from 'typedi';
+import { UserResquest } from '../types/project';
 
 /** 数据库在这里接入 */
 @Service()
@@ -10,19 +11,28 @@ export default class BaseModel {
     private _config = {
         host: '127.0.0.1',
         user: 'root',
-        password: '200083',
+        password: '123456',
         database: 'blog_data',
         port: 3306
     };
     // 插入
-    protected async insert() {}
-    // 查找
-    public async where() {
-        let result = await sql.table('category_table').where({ id: 1 }).select(true).exec();
+    public async insert(DataTable: string, subData: any) {
+        let result = await sql.table(DataTable).data(subData).insert(true).exec();
+        return result;
+    }
+    // 查询
+    public async where(DataTable: string, reqData: Promise<any> | UserResquest) {
+        let result = await sql.table(DataTable).where(reqData).select(true).exec();
         return result;
     }
     // 删除
-    protected delet() {}
+    public async delete(DataTable: string, reqData: Promise<any> | UserResquest) {
+        let result = await sql.table(DataTable).where(reqData).delete(true).exec();
+        return result;
+    }
     // 更新
-    protected update() {}
+    public async update(DataTable: string, subData: any, reqData: Promise<any> | UserResquest) {
+        let result = await sql.table(DataTable).data(subData).where(reqData).update(true).exec();
+        return result;
+    }
 }

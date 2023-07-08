@@ -25,7 +25,8 @@ export class RegRoutes {
 
     /** 用户路由注册 */
     private regUserRoute() {
-        this._routes.set({ method: 'get', path: UserApi.LOGIN }, userApi[UserApi.LOGIN]);
+        this._routes.set({ method: 'post', path: UserApi.LOGIN }, userApi[UserApi.LOGIN]);
+        this._routes.set({ method: 'post', path: UserApi.REGISTER }, userApi[UserApi.REGISTER]);
     }
 
     public init(): void {

@@ -5,16 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-    "type": "node",
-    "request": "launch",
-    "name": "启动程序",
-    "program": "${workspaceFolder}/src/app.ts",
-    "runtimeExecutable": "nodemon", // 或者 node-dev
-    "restart": true,
-    "console": "integratedTerminal",
-    "skipFiles": [
-      "${workspaceRoot}/node_modules/**/*.ts",
-      "<node_internals>/**/*.ts"
-    ]
-  }]
+      "type": "node",
+      "request": "launch",
+      "name": "启动程序",
+      "program": "${workspaceFolder}/src/app.ts",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/nodemon", // 或者 node-dev
+      "restart": true,
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**/*.ts",
+        "<node_internals>/**/*.ts"
+      ]
+    }
+  ]
 }

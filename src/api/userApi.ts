@@ -8,7 +8,13 @@ export default {
         // 获取依赖
         let userController = Container.get(UserController);
         // userController 是网络层(用户请求第一接触的类)
-        ctx.body = await userController.signUp(ctx);
+        ctx.body = await userController.logIn(ctx);
         return;
-    }
+    },
+    [UserApi.REGISTER]: async (ctx: RouterContext) => {
+        // 获取依赖
+        let userController = Container.get(UserController);
+        ctx.body = await userController.regIster(ctx);
+        return;
+    },
 };
