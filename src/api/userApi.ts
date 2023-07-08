@@ -18,7 +18,11 @@ export default {
         return;
     },
     [UserApi.LOGOUT]: () => {},
-    [UserApi.GET_USER]: async (ctx: RouterContext) => {},
+    [UserApi.GET_USER]: async (ctx: RouterContext) => {
+        let userController = Container.get(UserController);
+        ctx.body = await userController.regIster(ctx);
+        return;
+    },
     [UserApi.DELETE_USER]: () => {},
     [UserApi.LIST_USERS]: () => {},
     [UserApi.UPDATE_USER]: () => {}

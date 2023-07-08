@@ -9,6 +9,10 @@ export declare type RegisterRequestData = {
     headPortrait: string;
 };
 
+export declare type QueryUser = Partial<UserData>;
+
+// 查询是否存在
+export declare type UserDataKeys = keyof UserData;
 /** 用户数据 */
 export declare type UserData = {
     loginId: string;

@@ -29,3 +29,12 @@ export declare type LoginParams = {
     loginId: string;
     password: string;
 };
+
+/** 统计查询方法 */
+export declare enum QUERY_METHOD {
+    COUNT = 'count', // 统计数量
+    MAX = 'max', // 获取最大值
+    MIN = 'min', // 获取最小值
+    AVG = 'avg', // 获取平均值
+    SUM = 'sum' // 获取总数
+}

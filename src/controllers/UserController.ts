@@ -28,11 +28,11 @@ export default class UserController extends Controller {
         // 路由层实际负责的
         // 查找有无字段
         let notKeys: string[] | null = this.checkKeys<LoginRequestData>(this._params, ['loginId', 'password']);
-        if (!notKeys) {
+        if (notKeys) {
             // 有没传的字段
             return this.reponseNotData<Response<Status>>(notKeys);
         }
-        const user: Response<UserData> = await this._userService.Login(this._params);
+        const user: Response<UserData> = await this._userService.login(this._params);
         // 返回一个响应到客户端
         return user;
     }
@@ -43,7 +43,7 @@ export default class UserController extends Controller {
         if (!notKeys) {
             return this.reponseNotData<Response<Status>>(notKeys);
         }
-        return await this._userService.Register(this._params);
+        return await this._userService.register(this._params);
     }
 
     /** 检测接收账号合规 */
