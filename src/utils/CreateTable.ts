@@ -1,4 +1,5 @@
 import { sql, exec } from 'mysqls';
+import { DataTable } from '../config/datatable';
 type Table = {
     name: string;
     value: string;
@@ -15,7 +16,7 @@ export default class CreateTable {
     }
     private tables: Table[] = [
         {
-            name: 'users',
+            name: DataTable.USERINFO_TABLE,
             value: `CREATE TABLE users (
               user_id INT PRIMARY KEY,
               username VARCHAR(50) NOT NULL,
@@ -27,7 +28,7 @@ export default class CreateTable {
             `
         },
         {
-            name: 'articles',
+            name: DataTable.ARTICLE_TABLE,
             value: `CREATE TABLE articles (
               article_id INT PRIMARY KEY,
               title VARCHAR(100) NOT NULL,
