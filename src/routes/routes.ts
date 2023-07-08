@@ -4,6 +4,7 @@ import { UserApi, ArticleApi } from '../config/types.ts';
 
 /** 业务入口模块导入 */
 import userApi from '../api/userApi.ts';
+import articleApi from '../api/articleApi.ts';
 
 /** 路由注册类 */
 export class RegRoutes {
@@ -45,15 +46,15 @@ export class RegRoutes {
     /** 文章路由注册 */
     private regArticleRoute(): void {
         /** 获取全部文章 */
-        this._routes.set({ method: 'get', path: ArticleApi.GETALL_ARTICLE }, ArticleApi[ArticleApi.GETALL_ARTICLE]);
+        this._routes.set({ method: 'get', path: ArticleApi.GETALL_ARTICLE }, articleApi[ArticleApi.GETALL_ARTICLE]);
         /** 获取单个文章 */
-        this._routes.set({ method: 'get', path: ArticleApi.GET_ARTICLE }, ArticleApi[ArticleApi.GET_ARTICLE]);
+        this._routes.set({ method: 'get', path: ArticleApi.GET_ARTICLE }, articleApi[ArticleApi.GET_ARTICLE]);
         /** 创建文章 */
-        this._routes.set({ method: 'post', path: ArticleApi.CREATE_ARTICLE }, ArticleApi[ArticleApi.CREATE_ARTICLE]);
+        this._routes.set({ method: 'post', path: ArticleApi.CREATE_ARTICLE }, articleApi[ArticleApi.CREATE_ARTICLE]);
         /** 更新文章 */
-        this._routes.set({ method: 'put', path: ArticleApi.UPDATE_ARTICLE }, ArticleApi[ArticleApi.UPDATE_ARTICLE]);
+        this._routes.set({ method: 'put', path: ArticleApi.UPDATE_ARTICLE }, articleApi[ArticleApi.UPDATE_ARTICLE]);
         /** 删除文章 */
-        this._routes.set({ method: 'delete', path: ArticleApi.DELETE_ARTICLE }, ArticleApi[ArticleApi.DELETE_ARTICLE]);
+        this._routes.set({ method: 'delete', path: ArticleApi.DELETE_ARTICLE }, articleApi[ArticleApi.DELETE_ARTICLE]);
     }
 
     public init(): void {

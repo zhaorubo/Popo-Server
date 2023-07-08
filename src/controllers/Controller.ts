@@ -1,4 +1,4 @@
-import { Status } from '../utils/Status';
+import { Status } from '../utils/Status.ts';
 
 export default class Controller {
     public reponseNotData<T>(keys?: string[] | null): T {

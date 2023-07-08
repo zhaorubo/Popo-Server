@@ -10,5 +10,11 @@ export default {
         // userController 是网络层(用户请求第一接触的类)
         ctx.body = await userController.signUp(ctx);
         return;
-    }
+    },
+    [UserApi.LOGOUT]: () => {},
+    [UserApi.REGISTER]: () => {},
+    [UserApi.GET_USER]: () => {},
+    [UserApi.DELETE_USER]: () => {},
+    [UserApi.LIST_USERS]: () => {},
+    [UserApi.UPDATE_USER]: () => {}
 };
