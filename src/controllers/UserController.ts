@@ -16,19 +16,25 @@ export default class UserController extends Controller {
     }
     private _userService: UserService;
 
-    @routeParameterDecorator
-    public async signUp(ctx: RouterContext, params: LoginRequestData = {} as LoginRequestData) {
+    public _params: any;
+    public set params(val: any) {
+        this._params = val;
+    }
+
+    @(routeParameterDecorator<LoginRequestData>)
+    public async signUp(ctx: RouterContext) {
         // 路由层实际负责的
         // 查找有无字段
-        let notKeys: string[] | null = this.checkKeys<LoginRequestData>(params, ['loginId', 'password']);
+        let notKeys: string[] | null = this.checkKeys<LoginRequestData>(this._params, ['loginId', 'password']);
         if (!notKeys) {
             // 有没传的字段
             return this.reponseNotData<Response<Status>>(notKeys);
         }
-        const user = await this._userService.signup(params);
+        const user = await this._userService.signup(this._params);
         // 返回一个响应到客户端
         return user;
     }
 
-    public async register(ctx: RouterContext) {}
+    @routeParameterDecorator
+    public async register(ctx: RouterContext, params?: RegisterRequestData) {}
 }

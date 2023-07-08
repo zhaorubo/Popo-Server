@@ -1,6 +1,6 @@
 import { Status } from '../utils/Status.ts';
 
-export default class Controller {
+export default abstract class Controller {
     public reponseNotData<T>(keys?: string[] | null): T {
         return {
             code: Status.NOT_MEET_WITH,
@@ -8,6 +8,9 @@ export default class Controller {
             data: null
         } as T;
     }
+
+    protected abstract _params: any;
+    public abstract set params(val: any);
 
     /** 检查请求字段 */
     public checkKeys<T>(reqData: T, keys: string[]): string[] | null {
