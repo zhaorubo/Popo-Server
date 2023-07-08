@@ -1,7 +1,7 @@
 import { Status } from '../utils/Status.ts';
 
 export default abstract class Controller {
-    public reponseNotData<T>(keys?: string[] | null): T {
+    public reponseNotData<T>(keys?: string[]): T {
         return {
             code: Status.NOT_MEET_WITH,
             prompt: `${Status.message},${keys && '缺少:' + keys.join(',')}`,

@@ -1,7 +1,7 @@
 import { init, exec, sql, transaction } from 'mysqls';
 import { Service } from 'typedi';
-import { QUERY_METHOD } from '../types/project';
 import { QueryUser, UserDataKeys } from '../types/user';
+import { ResultSetHeader } from '../types/project';
 
 /** 数据库在这里接入 */
 @Service()
@@ -41,12 +41,12 @@ export default class BaseModel {
      * 删除
      * @return 成功返回true，失败返回false
      */
-    public async delete(table: string, params: QueryUser): Promise<boolean> {
+    public async delete(table: string, params: QueryUser): Promise<ResultSetHeader> {
         try {
-            await sql.table(table).where(params).delete(true).exec();
-            return true;
+            let result = await sql.table(table).where(params).delet(true).exec();
+            return result;
         } catch (error) {
-            return false;
+            return error;
         }
     }
     /** 更新 */
@@ -59,8 +59,8 @@ export default class BaseModel {
         return await sql[method](data).table(table).select(true).exec();
     }
     /** 唯一id查询是否存在 */
-    public async isHasById(key: UserDataKeys, value: any): Promise<boolean> {
-        let result = await sql.table('node_table').limit(1).where(`${key}=${value}`).select(true).exec();
+    public async isHasById(table: string, key: UserDataKeys, value: any): Promise<boolean> {
+        let result = await sql.table(table).limit(1).where(`${key}=${value}`).select(true).exec();
         return result && result.length;
     }
 }

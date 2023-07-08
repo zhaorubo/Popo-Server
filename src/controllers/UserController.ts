@@ -3,8 +3,8 @@ import UserService from '../services/UserService.ts';
 import { RouterContext } from 'koa-router';
 import { Status } from '../utils/Status.ts';
 import Controller from './Controller.ts';
-import { Response } from '../types/project';
-import { LoginRequestData, RegisterRequestData, UserData } from '../types/user';
+import { Response, ResultSetHeader, UserResponse } from '../types/project';
+import { DeleteUserData, LoginRequestData, RegisterRequestData, UserData } from '../types/user';
 import routeParameterDecorator from '../decorators/routeParameterDecorator.ts';
 
 @Service()
@@ -22,34 +22,38 @@ export default class UserController extends Controller {
     }
 
     /** 登录 */
-    @(routeParameterDecorator<LoginRequestData>)
+    @routeParameterDecorator(['loginId', 'password'])
     public async logIn(ctx: RouterContext) {
         // 路由层实际负责的
-        // 路由层实际负责的
         // 查找有无字段
-        let notKeys: string[] | null = this.checkKeys<LoginRequestData>(this._params, ['loginId', 'password']);
-        if (notKeys) {
-            // 有没传的字段
-            return this.reponseNotData<Response<Status>>(notKeys);
-        }
         const user: Response<UserData> = await this._userService.login(this._params);
         // 返回一个响应到客户端
         return user;
     }
     /** 注册 */
-    @(routeParameterDecorator<RegisterRequestData>)
-    public async regIster(ctx: RouterContext) {
-        let notKeys: string[] | null = this.checkKeys<RegisterRequestData>(this._params, ['loginId', 'password', 'user_name']);
-        if (!notKeys) {
-            return this.reponseNotData<Response<Status>>(notKeys);
-        }
+    @routeParameterDecorator(['loginId', 'password', 'user_name'])
+    public async register(ctx: RouterContext) {
         return await this._userService.register(this._params);
     }
 
-    /** 检测接收账号合规 */
-    // private checkAccountNumber(reqData: UserResquest): boolean {
-    //     if (!reqData) return false;
+    /** 获取用户详情 */
+    @routeParameterDecorator(['user_id'])
+    public async getUser(ctx: RouterContext) {
+        return await this._userService.getUser(this._params);
+    }
 
-    //     return true;
-    // }
+    /** 删除用户(注销) */
+    @routeParameterDecorator(['user_id'])
+    public async deleteUser(ctx: RouterContext): Promise<UserResponse<UserData>> {
+        return await this._userService.deleteUser(this._params);
+    }
+
+    /** 检查是否有传某个字段的集合，没有则直接返回错误给客户端 */
+    private checkUserKeys(keys: string[]): Response<Status> | undefined {
+        if (!keys.length) return;
+        let notKeys: string[] | null = this.checkKeys<RegisterRequestData>(this._params, keys);
+        if (notKeys) {
+            return this.reponseNotData<Response<Status>>(notKeys!);
+        }
+    }
 }

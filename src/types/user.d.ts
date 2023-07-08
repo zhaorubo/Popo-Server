@@ -9,6 +9,14 @@ export declare type RegisterRequestData = {
     headPortrait: string;
 };
 
+export declare type DeleteUserData = {
+    user_id: number;
+};
+
+export declare type GetUserData = {
+    user_id: number;
+};
+
 export declare type QueryUser = Partial<UserData>;
 
 // 查询是否存在

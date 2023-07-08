@@ -1,5 +1,5 @@
 import { sql, exec } from 'mysqls';
-import { DataTable } from '../config/datatable';
+import { DataTable } from '../config/datatable.ts';
 type Table = {
     name: string;
     value: string;
@@ -17,9 +17,10 @@ export default class CreateTable {
     private tables: Table[] = [
         {
             name: DataTable.USERINFO_TABLE,
-            value: `CREATE TABLE users (
+            value: `CREATE TABLE ${DataTable.USERINFO_TABLE} (
               user_id INT PRIMARY KEY,
-              username VARCHAR(50) NOT NULL,
+              loginId TEXT NOT NULL,
+              user_name VARCHAR(50) NOT NULL,
               password VARCHAR(100) NOT NULL,
               created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
               avatar VARCHAR(200),
@@ -29,7 +30,7 @@ export default class CreateTable {
         },
         {
             name: DataTable.ARTICLE_TABLE,
-            value: `CREATE TABLE articles (
+            value: `CREATE TABLE ${DataTable.ARTICLE_TABLE} (
               article_id INT PRIMARY KEY,
               title VARCHAR(100) NOT NULL,
               content TEXT NOT NULL,
@@ -46,7 +47,7 @@ export default class CreateTable {
         for (let i = 0; i < this.tables.length; i++) {
             const table = this.tables[i];
             let isHas: boolean = await this.checkTable(table.name);
-            if (!isHas) exec(table.value);
+            if (!isHas) await exec(table.value.trim());
             else console.log(table.name + '已存在');
         }
     }

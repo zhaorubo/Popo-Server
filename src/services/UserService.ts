@@ -1,4 +1,4 @@
-import { LoginRequestData, RegisterRequestData, UserData } from '../types/user';
+import { DeleteUserData, GetUserData, LoginRequestData, RegisterRequestData, UserData } from '../types/user';
 import UserModel from '../models/user/UserModel.ts';
 import { DataTable } from '../config/datatable.ts';
 import { UserStatus } from '../utils/Status.ts';
@@ -14,25 +14,46 @@ export default class UserService {
     private userModel: UserModel;
     /** 当前需要发送的数据 */
     private _data: UserData;
-    // 登陆
+    /** 用户登录 */
     public async login(reqData: LoginRequestData) {
-        this._data = await this.userModel.getUserData(reqData, DataTable[DataTable.USERINFO_TABLE]);
+        this.checkHasUser.call(this, reqData.loginId);
+        this._data = await this.userModel.getUserData(reqData, DataTable.USERINFO_TABLE);
         return this.returnMsg(UserStatus.SUCCESS);
     }
+
+    /** 注册用户 */
     public async register(data: RegisterRequestData) {
-        let flag: boolean = await this.userModel.isHasById('loginId', data.loginId);
-        let error: UserResponse<UserData> = { code: UserStatus.ACCOUNT_REPEAT, prompt: UserStatus.message };
-        if (flag) return error;
-        if (!flag) {
-            let bool: boolean = await this.userModel.insUserData(data, DataTable[DataTable.USERINFO_TABLE]);
-            if (bool) {
-                return { data: null, code: UserStatus.SUCCESS, prompt: UserStatus.message };
-            } else {
-                return error;
-            }
+        this.checkHasUser.call(this, data.loginId);
+        let bool: boolean = await this.userModel.insUserData(data, DataTable.USERINFO_TABLE);
+        if (bool) {
+            return this.returnMsg(UserStatus.SUCCESS);
+        } else {
+            return this.returnMsg(UserStatus.SERVER_ERROR);
         }
     }
 
+    /** 获取用户详情 */
+    public async getUser({ user_id }: GetUserData): Promise<UserData> {
+        this.checkHasUser.call(this, user_id);
+        return await this.userModel.getUserData({ user_id }, DataTable.USERINFO_TABLE);
+    }
+
+    /** 删除用户 */
+    public async deleteUser({ user_id }: DeleteUserData) {
+        this.checkHasUser.call(this, user_id);
+        await this.userModel.delUserData({ user_id }, DataTable.USERINFO_TABLE);
+        return this.returnMsg(UserStatus.SUCCESS);
+    }
+
+    /** 根据loginId检查是否有这个用户 */
+    public async checkHasUser(loginId: string) {
+        let isHas: boolean = await this.userModel.isHasById(DataTable.USERINFO_TABLE, 'loginId', loginId);
+        if (isHas) {
+            return this.returnMsg(UserStatus.ACCOUNT_REPEAT);
+        }
+    }
+
+    /** 返回的消息 */
     private returnMsg(code: number): UserResponse<UserData> {
         return { data: this._data, code: code, prompt: UserStatus.message };
     }
