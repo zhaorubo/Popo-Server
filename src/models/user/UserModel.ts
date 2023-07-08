@@ -5,6 +5,8 @@
 import { Service } from 'typedi';
 import BaseModel from '../BaseModel.ts';
 import { UserResquest } from '../../types/project';
+import { UserData } from '../../types/user';
+import { DataTable } from '../../config/datatable.ts';
 
 @Service()
 export default class UserModel extends BaseModel {
@@ -21,6 +23,10 @@ export default class UserModel extends BaseModel {
     /** 查询 */
     public async getUserData(reqData: Promise<any> | UserResquest, DataTable: string) {
         let result = await this._baseModel.where(DataTable, reqData);
+        return result;
+    }
+    public async getUserDataByLoginId(loginId: string): Promise<UserData> {
+        let result = await this._baseModel.where(DataTable.USERINFO_TABLE, { loginId: loginId });
         return result;
     }
     /** 删除 */
