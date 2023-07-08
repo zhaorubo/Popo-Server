@@ -21,7 +21,7 @@ export default class BaseModel {
     protected async insert() {}
     // 查找
     public async where(data: any) {
-        let result = await sql.table('category_table').where(data).select(true).exec();
+        let result = await sql.table('users_table').where(data).select(true).exec();
         return result;
     }
     // 删除

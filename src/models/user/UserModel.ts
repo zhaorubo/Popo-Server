@@ -4,6 +4,7 @@
  */
 import { Service } from 'typedi';
 import BaseModel from '../BaseModel.ts';
+import { UserData } from '../../types/user';
 
 @Service()
 export default class UserModel extends BaseModel {
@@ -12,8 +13,8 @@ export default class UserModel extends BaseModel {
         this._baseModel = baseModel;
     }
     private _baseModel: BaseModel;
-    public async getUserData() {
-        let result = await this._baseModel.where({ id: 1 });
+    public async getUserDataByLoginId(loginId: string): Promise<UserData> {
+        let result = await this._baseModel.where({ loginId: loginId });
         return result;
     }
 }

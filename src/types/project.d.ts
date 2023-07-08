@@ -12,16 +12,20 @@ export declare type Config = {
     };
 };
 
-export declare interface UserResponse extends Response {}
+export declare interface Response<T> extends UserResponse<T> {}
 
-export declare interface UserResquest extends Resquest {
-    loginId: string;
-    password: string;
-}
+export declare interface Resquest<T> {}
 
-export declare type Resquest = {};
-export declare type Response = {
+export declare type UserResquest = {};
+
+// 用户响应类型
+export declare type UserResponse<T> = {
     code: number;
     prompt: string;
-    data?: any;
+    data?: T;
+};
+// User
+export declare type LoginParams = {
+    loginId: string;
+    password: string;
 };
