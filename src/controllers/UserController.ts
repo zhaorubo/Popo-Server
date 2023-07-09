@@ -1,10 +1,9 @@
 import { Service } from 'typedi';
 import UserService from '../services/UserService.ts';
 import { RouterContext } from 'koa-router';
-import { Status } from '../utils/Status.ts';
 import Controller from './Controller.ts';
-import { Response, ResultSetHeader, UserResponse } from '../types/project';
-import { DeleteUserData, LoginRequestData, RegisterRequestData, UserData } from '../types/user';
+import { Response, UserResponse } from '../types/project';
+import { QueryUser, UserData } from '../types/user';
 import routeParameterDecorator from '../decorators/routeParameterDecorator.ts';
 
 @Service()
@@ -15,7 +14,6 @@ export default class UserController extends Controller {
         this._userService = userService;
     }
     private _userService: UserService;
-
     public _params: any;
     public set params(val: any) {
         this._params = val;
@@ -55,12 +53,8 @@ export default class UserController extends Controller {
         return await this._userService.getAllUser();
     }
 
-    /** 检查是否有传某个字段的集合，没有则直接返回错误给客户端 */
-    private checkUserKeys(keys: string[]): Response<Status> | undefined {
-        if (!keys.length) return;
-        let notKeys: string[] | null = this.checkKeys<RegisterRequestData>(this._params, keys);
-        if (notKeys) {
-            return this.reponseNotData<Response<Status>>(notKeys!);
-        }
+    /** 更新用户信息 */
+    public async updateUser(ctx: RouterContext): Promise<UserResponse<any>> {
+        return await this._userService.updateUser(this._params);
     }
 }

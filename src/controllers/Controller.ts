@@ -1,4 +1,6 @@
+import { RegisterRequestData } from '../types/user';
 import { Status } from '../utils/Status.ts';
+import { Response } from '../types/project';
 
 export default abstract class Controller {
     public reponseNotData<T>(keys?: string[]): T {
@@ -23,5 +25,14 @@ export default abstract class Controller {
             }
         });
         return notKeys || null;
+    }
+
+    /** 检查是否有传某个字段的集合，没有则直接返回错误给客户端 */
+    private checkUserKeys(keys: string[]): Response<Status> | undefined {
+        if (!keys.length) return;
+        let notKeys: string[] | null = this.checkKeys<RegisterRequestData>(this._params, keys);
+        if (notKeys) {
+            return this.reponseNotData<Response<Status>>(notKeys!);
+        }
     }
 }

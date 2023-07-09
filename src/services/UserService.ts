@@ -1,4 +1,4 @@
-import { DeleteUserData, GetUserData, LoginRequestData, RegisterRequestData, UserData } from '../types/user';
+import { DeleteUserData, GetUserData, LoginRequestData, QueryUser, RegisterRequestData, UserData } from '../types/user';
 import UserModel from '../models/user/UserModel.ts';
 import { DataTable } from '../config/datatable.ts';
 import { UserStatus } from '../utils/Status.ts';
@@ -48,6 +48,12 @@ export default class UserService {
     public async deleteUser({ user_id }: DeleteUserData) {
         this.checkHasUser.call(this, user_id);
         await this.userModel.delUserData({ user_id }, DataTable.USERINFO_TABLE);
+        return this.returnMsg(UserStatus.SUCCESS);
+    }
+
+    /** 更新用户 */
+    public async updateUser(params: QueryUser): Promise<UserResponse<any>> {
+        this.userModel.updateUserData(DataTable.USERINFO_TABLE, { user_id: params.user_id }, params);
         return this.returnMsg(UserStatus.SUCCESS);
     }
 

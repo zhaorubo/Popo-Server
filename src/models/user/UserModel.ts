@@ -34,7 +34,7 @@ export default class UserModel extends BaseModel {
         return result;
     }
     /** 更新 */
-    public async updUserData(reqData: QueryUser, subData: any, DataTable: string) {
+    public async updateUserData(DataTable: string, reqData: QueryUser, subData: any) {
         let result = await this._baseModel.update(DataTable, subData, reqData);
         return result;
     }
