@@ -17,7 +17,7 @@ export default class UserService {
     /** 用户登录 */
     public async login(reqData: LoginRequestData) {
         this.checkHasUser.call(this, reqData.loginId);
-        this._data = await this.userModel.getUserData(reqData, DataTable.USERINFO_TABLE);
+        this._data = await this.userModel.getUserData(DataTable.USERINFO_TABLE, reqData);
         return this.returnMsg(UserStatus.SUCCESS);
     }
 
@@ -35,10 +35,16 @@ export default class UserService {
     /** 获取用户详情 */
     public async getUser({ user_id }: GetUserData): Promise<UserData> {
         this.checkHasUser.call(this, user_id);
-        return await this.userModel.getUserData({ user_id }, DataTable.USERINFO_TABLE);
+        return await this.userModel.getUserData(DataTable.USERINFO_TABLE, { user_id });
     }
 
-    /** 删除用户 */
+    /** 获取所有用户 */
+    public async getAllUser(): Promise<UserResponse<UserData>> {
+        this._data = await this.userModel.getUserData(DataTable.USERINFO_TABLE);
+        return this.returnMsg(UserStatus.SUCCESS);
+    }
+
+    /** 删除注销用户 */
     public async deleteUser({ user_id }: DeleteUserData) {
         this.checkHasUser.call(this, user_id);
         await this.userModel.delUserData({ user_id }, DataTable.USERINFO_TABLE);

@@ -23,7 +23,10 @@ export default {
     },
     [UserApi.DELETE_USER]: async (ctx: RouterContext) => {
         ctx.body = await userController.deleteUser(ctx);
+        return;
     },
-    [UserApi.LIST_USERS]: () => {},
+    [UserApi.LIST_USERS]: (ctx: RouterContext) => {
+        ctx.body = userController.getAllUser(ctx);
+    },
     [UserApi.UPDATE_USER]: () => {}
 };

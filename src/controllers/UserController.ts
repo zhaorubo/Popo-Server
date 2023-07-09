@@ -30,6 +30,7 @@ export default class UserController extends Controller {
         // 返回一个响应到客户端
         return user;
     }
+
     /** 注册 */
     @routeParameterDecorator(['loginId', 'password', 'user_name'])
     public async register(ctx: RouterContext) {
@@ -46,6 +47,12 @@ export default class UserController extends Controller {
     @routeParameterDecorator(['user_id'])
     public async deleteUser(ctx: RouterContext): Promise<UserResponse<UserData>> {
         return await this._userService.deleteUser(this._params);
+    }
+
+    /** 获取所有用户 */
+    @routeParameterDecorator([])
+    public async getAllUser(ctx: RouterContext): Promise<UserResponse<UserData>> {
+        return await this._userService.getAllUser();
     }
 
     /** 检查是否有传某个字段的集合，没有则直接返回错误给客户端 */
