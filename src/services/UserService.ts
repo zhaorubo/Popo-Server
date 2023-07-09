@@ -1,7 +1,5 @@
 import { DeleteUserData, GetUserData, LoginRequestData, QueryUser, RegisterRequestData, UserData } from '../types/user';
 import UserModel from '../models/user/UserModel.ts';
-import { Response } from '../types/project';
-import { LoginRequestData, RegisterRequestData, UserData } from '../types/user';
 import { DataTable } from '../config/datatable.ts';
 import { UserStatus } from '../utils/Status.ts';
 import { Response, UserResponse } from '../types/project';
