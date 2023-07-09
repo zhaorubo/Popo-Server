@@ -3,6 +3,4 @@
  * 工具类模块
  */
 
-export default class Utils {
-
-}
+export default class Utils {}

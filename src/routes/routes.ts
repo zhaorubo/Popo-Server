@@ -26,7 +26,6 @@ export class RegRoutes {
     }
 
     /** 用户路由注册 */
-<<<<<<< HEAD
     private regUserRoute(): void {
         // 登陆
         this._routes.set({ method: 'post', path: UserApi.LOGIN }, userApi[UserApi.LOGIN]);
@@ -56,11 +55,6 @@ export class RegRoutes {
         this._routes.set({ method: 'put', path: ArticleApi.UPDATE_ARTICLE }, articleApi[ArticleApi.UPDATE_ARTICLE]);
         /** 删除文章 */
         this._routes.set({ method: 'delete', path: ArticleApi.DELETE_ARTICLE }, articleApi[ArticleApi.DELETE_ARTICLE]);
-=======
-    private regUserRoute() {
-        this._routes.set({ method: 'post', path: UserApi.LOGIN }, userApi[UserApi.LOGIN]);
-        this._routes.set({ method: 'post', path: UserApi.REGISTER }, userApi[UserApi.REGISTER]);
->>>>>>> star-dev
     }
 
     public init(): void {

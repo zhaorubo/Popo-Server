@@ -18,6 +18,8 @@ class App {
             // 创建表
             CreateTable.ins().create();
             this._app.use(router.routes());
+            BaseModel.init();
+            CreateTable.ins().create();
             console.log('服务初始化成功');
         } catch {
             console.log('服务初始化失败');

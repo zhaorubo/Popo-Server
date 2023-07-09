@@ -4,9 +4,8 @@
  */
 import { Service } from 'typedi';
 import BaseModel from '../BaseModel.ts';
-import { UserData } from '../../types/user';
+import { QueryUser, UserData } from '../../types/user';
 import { DataTable } from '../../config/datatable.ts';
-import { UserResquest } from '../../types/project';
 
 @Service()
 export default class UserModel extends BaseModel {
@@ -15,26 +14,27 @@ export default class UserModel extends BaseModel {
         this._baseModel = baseModel;
     }
     private _baseModel: BaseModel;
-    public async getUserDataByLoginId(loginId: string): Promise<UserData> {
-        return await this._baseModel.where(DataTable.USERINFO_TABLE, { loginId: loginId });
-    }
-    // 插入
+    /** 插入 */
     public async insUserData(subData: any, DataTable: string) {
         let result = await this._baseModel.insert(DataTable, subData);
         return result;
     }
-    // 查询
-    public async getUserData(reqData: Promise<any> | UserResquest, DataTable: string) {
+    /** 查询 */
+    public async getUserData(DataTable: string, reqData: QueryUser = {}): Promise<UserData> {
         let result = await this._baseModel.where(DataTable, reqData);
         return result;
     }
-    // 删除
-    public async delUserData(reqData: Promise<any> | UserResquest, DataTable: string) {
+    public async getUserDataByLoginId(userId: number): Promise<UserData> {
+        let result = await this._baseModel.where(DataTable.USERINFO_TABLE, { user_id: userId });
+        return result;
+    }
+    /** 删除 */
+    public async delUserData(reqData: QueryUser, DataTable: string) {
         let result = await this._baseModel.delete(DataTable, reqData);
         return result;
     }
-    // 更新
-    public async updUserData(reqData: Promise<any> | UserResquest, subData: any, DataTable: string) {
+    /** 更新 */
+    public async updateUserData(DataTable: string, reqData: QueryUser, subData: any) {
         let result = await this._baseModel.update(DataTable, subData, reqData);
         return result;
     }

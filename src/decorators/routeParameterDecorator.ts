@@ -7,13 +7,21 @@ import { RouterContext } from 'koa-router';
  * @return2 筛选过后的参数
  * @return3 其他参数
  */
-export default function routeParameterDecorator<T>(target: any, methodName: string, descriptor: PropertyDescriptor): any {
-    const originalMethod = descriptor.value;
-    descriptor.value = function (ctx: RouterContext, ...args: any[]) {
-        // 过滤参数
-        let params: T = { ...ctx.params, ...(ctx.body as object) } as T;
-        target['params'] = params;
-        console.log('Original method called with args:', params, ctx, args);
-        return originalMethod.call(this, ctx, params, args);
+export default function routeParameterDecorator(checkKeys?: string[]): any {
+    return function (ins: any, methodName: string, descriptor: PropertyDescriptor) {
+        const originalMethod = descriptor.value;
+        descriptor.value = function (ctx: RouterContext, ...args: any[]) {
+            // 过滤参数
+            let params = { ...ctx.params, ...(ctx.body as object), ...ctx.query };
+            // 在类中注入过滤后的参数
+            ins['params'] = params;
+            // 检查参数是否合格
+            if (ins.checkUserKeys) {
+                let checkRes = ins.checkUserKeys(checkKeys || []);
+                if (checkRes) return checkRes;
+            }
+            // 执行原方法
+            return originalMethod.call(this, ctx, params, args);
+        };
     };
 }
