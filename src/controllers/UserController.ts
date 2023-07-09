@@ -3,11 +3,12 @@ import UserService from '../services/UserService.ts';
 import { RouterContext } from 'koa-router';
 import Controller from './Controller.ts';
 import { Response, UserResponse } from '../types/project';
-import { QueryUser, UserData } from '../types/user';
+import { UserData } from '../types/user';
 import routeParameterDecorator from '../decorators/routeParameterDecorator.ts';
 
-@Service()
 // 网络控制层  可以在此处验证请求是否合理
+/** 用户模块控制器 */
+@Service()
 export default class UserController extends Controller {
     constructor(userService: UserService) {
         super();
