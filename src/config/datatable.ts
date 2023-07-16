@@ -5,5 +5,5 @@ export enum DataTable {
     /** 类别表 */
     CATEGORY_TABLE = 'category_table',
     /** 文章数据 */
-    ARTICLE_TABLE = 'article_table'
+    ARTICLE_TABLE = 'articles_table'
 }

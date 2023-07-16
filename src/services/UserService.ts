@@ -13,12 +13,22 @@ export default class UserService {
     }
     private userModel: UserModel;
     /** 当前需要发送的数据 */
-    private _data: UserData;
+    private _data: any;
     /** 用户登录 */
     public async login(reqData: LoginRequestData) {
         this.checkHasUser.call(this, reqData.loginId);
-        this._data = await this.userModel.getUserData(DataTable.USERINFO_TABLE, reqData);
-        return this.returnMsg(UserStatus.SUCCESS);
+        let isHas: boolean = await this.userModel.isHasById(DataTable.USERINFO_TABLE, 'loginId', reqData.loginId);
+        if (isHas) {
+            // 有用户
+            this._data as UserData[];
+            this._data = await this.userModel.getUserData(DataTable.USERINFO_TABLE, reqData);
+            if (this._data && this._data.length) {
+                // 验证密码
+                return this.returnMsg(UserStatus.SUCCESS);
+            }
+            return this.returnMsg(UserStatus.ACCOUNT_PWD_ERROR, false);
+        }
+        return this.returnMsg(UserStatus.ACCOUNT_UNREGISTER, false);
     }
 
     /** 注册用户 */
@@ -66,7 +76,10 @@ export default class UserService {
     }
 
     /** 返回的消息 */
-    private returnMsg(code: number): UserResponse<UserData> {
-        return { data: this._data, code: code, prompt: UserStatus.message };
+    private returnMsg(code: number, isData: boolean = true): UserResponse<UserData> {
+        if (isData) {
+            return { data: this._data, code: code, prompt: UserStatus.message };
+        }
+        return { code: code, prompt: UserStatus.message };
     }
 }

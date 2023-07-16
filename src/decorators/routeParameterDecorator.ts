@@ -16,8 +16,8 @@ export default function routeParameterDecorator(checkKeys?: string[]): any {
             // 在类中注入过滤后的参数
             ins['params'] = params;
             // 检查参数是否合格
-            if (ins.checkUserKeys) {
-                let checkRes = ins.checkUserKeys(checkKeys || []);
+            if (ins.checkKeys) {
+                let checkRes = ins.checkKeys(checkKeys || []);
                 if (checkRes) return checkRes;
             }
             // 执行原方法

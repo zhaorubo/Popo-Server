@@ -35,8 +35,9 @@ export default class CreateTable {
               title VARCHAR(100) NOT NULL,
               content TEXT NOT NULL,
               author_id INT,
+              category_id INT,
               published_at TIMESTAMP,
-              FOREIGN KEY (author_id) REFERENCES users (user_id)
+              FOREIGN KEY (author_id) REFERENCES users_table (user_id)
             );
             `
         }
