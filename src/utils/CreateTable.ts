@@ -1,5 +1,5 @@
 import { sql, exec } from 'mysqls';
-import { DataTable } from '../config/datatable.ts';
+import { DataTable } from '../config/Enum.ts';
 type Table = {
     name: string;
     value: string;

@@ -2,6 +2,7 @@ import { Service } from 'typedi';
 import Controller from './Controller.ts';
 import ArticleService from '../services/ArticleService.ts';
 import routeParameterDecorator from '../decorators/routeParameterDecorator.ts';
+import { RouterContext } from 'koa-router';
 /**
  * 文章模块控制器
  */
@@ -18,7 +19,7 @@ export default class ArticleController extends Controller {
     }
 
     @routeParameterDecorator()
-    public async getAllActicle() {
+    public async getAllActicle(ctx: RouterContext) {
         return await this._articleService.getAllActicle();
     }
 }

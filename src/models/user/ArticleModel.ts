@@ -5,7 +5,7 @@
 import { Service } from 'typedi';
 import BaseModel from '../BaseModel.ts';
 import { Article } from '../../types/article';
-import { DataTable } from '../../config/datatable.ts';
+import { DataTable } from '../../config/Enum.ts';
 // import { QUERY_METHOD } from '../../types/project';
 
 @Service()

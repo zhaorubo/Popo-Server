@@ -1,7 +1,9 @@
 import { Service } from 'typedi';
 import ArticleModel from '../models/user/ArticleModel.ts';
-import { DataTable } from '../config/datatable.ts';
+import { DataTable } from '../config/Enum.ts';
 import { Article } from '../types/article';
+import { ArticleResponse } from '../types/project';
+import { Status } from '../utils/Status.ts';
 
 // 业务逻辑层
 @Service()
@@ -11,9 +13,9 @@ export default class ArticleService {
     }
     private articleModel: ArticleModel;
 
-    public async getAllActicle() {
-        return await this.articleModel.getAll();
+    /** 获取所有文章 */
+    public async getAllActicle(): Promise<ArticleResponse<Article[]>> {
+        let data: Article[] = await this.articleModel.getAll();
+        return { data: data, code: Status.SUCCESS, prompt: Status.message };
     }
-
-    /** 获取单个文章 */
 }

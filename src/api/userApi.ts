@@ -1,6 +1,6 @@
 import { Container } from 'typedi';
 import UserController from '../controllers/UserController.ts';
-import { UserApi } from '../config/types.ts';
+import { UserApi } from '../config/Enum.ts';
 import { RouterContext } from 'koa-router';
 let userController = Container.get(UserController);
 /** 用户业务入口 */

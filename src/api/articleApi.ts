@@ -1,5 +1,5 @@
 import { Container } from 'typedi';
-import { ArticleApi } from '../config/types.ts';
+import { ArticleApi } from '../config/Enum.ts';
 import { RouterContext } from 'koa-router';
 import ArticleController from '../controllers/ArticleController.ts';
 const controller = Container.get(ArticleController);
@@ -10,8 +10,9 @@ export default {
     /** 删除文章 */
     [ArticleApi.DELETE_ARTICLE]: () => {},
     /** 获取全部文章 */
-    [ArticleApi.GETALL_ARTICLE]: (ctx: RouterContext) => {
-        ctx.body = controller.getAllActicle();
+    [ArticleApi.GETALL_ARTICLE]: async (ctx: RouterContext) => {
+        ctx.body = await controller.getAllActicle(ctx);
+        return;
     },
     /** 获取单个文章 */
     [ArticleApi.GET_ARTICLE]: () => {},

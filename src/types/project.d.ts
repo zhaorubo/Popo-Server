@@ -36,11 +36,19 @@ export declare type UserResponse<T> = {
     code: number;
     prompt: string;
     data?: T;
+    token?: string;
 };
 // User
 export declare type LoginParams = {
     loginId: string;
     password: string;
+};
+
+// ARTICLE
+export declare type ArticleResponse<T> = {
+    code: number;
+    prompt: string;
+    data?: T;
 };
 
 /** 统计查询方法 */

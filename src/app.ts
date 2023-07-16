@@ -4,6 +4,7 @@ import koaBodyParser from 'koa-bodyparser';
 import router from './routes/routes.ts';
 import CreateTable from './utils/CreateTable.ts';
 import BaseModel from './models/BaseModel.ts';
+import checkToken from './utils/CheckToken.ts';
 class App {
     constructor() {
         this.init();
@@ -12,6 +13,7 @@ class App {
     private init(): void {
         try {
             this._app = new Koa();
+            this._app.use(checkToken);
             this._app.use(koaBodyParser());
             this._app.use(router.routes());
             BaseModel.init();
