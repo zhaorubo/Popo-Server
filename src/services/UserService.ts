@@ -1,9 +1,11 @@
 import { DeleteUserData, GetUserData, LoginRequestData, QueryUser, RegisterRequestData, UserData } from '../types/user';
 import UserModel from '../models/user/UserModel.ts';
-import { DataTable } from '../config/datatable.ts';
+import { DataTable } from '../config/Enum.ts';
 import { UserStatus } from '../utils/Status.ts';
-import { Response, UserResponse } from '../types/project';
+import { UserResponse } from '../types/project';
+import jwt from 'jsonwebtoken';
 import { Service } from 'typedi';
+import Utils from '../utils/Utils.ts';
 
 // 业务逻辑层
 @Service()
@@ -13,12 +15,30 @@ export default class UserService {
     }
     private userModel: UserModel;
     /** 当前需要发送的数据 */
-    private _data: UserData;
+    private _data: any;
     /** 用户登录 */
     public async login(reqData: LoginRequestData) {
         this.checkHasUser.call(this, reqData.loginId);
-        this._data = await this.userModel.getUserData(DataTable.USERINFO_TABLE, reqData);
-        return this.returnMsg(UserStatus.SUCCESS);
+        let isHas: boolean = await this.userModel.isHasById(DataTable.USERINFO_TABLE, 'loginId', reqData.loginId);
+        if (isHas) {
+            // 有用户
+            this._data as UserData[];
+            this._data = await this.userModel.getOnce(DataTable.USERINFO_TABLE, reqData);
+            if (this._data) {
+                // 验证密码
+                let token: string = await jwt.sign(
+                    {
+                        loginId: Utils.getRandomString(reqData.loginId, 5),
+                        user_id: Utils.getRandomString(this._data.user_name, 5)
+                    },
+                    'jsonWebToken',
+                    { expiresIn: '3days' }
+                );
+                return this.returnMsg(UserStatus.SUCCESS, token);
+            }
+            return this.returnMsg(UserStatus.ACCOUNT_PWD_ERROR);
+        }
+        return this.returnMsg(UserStatus.ACCOUNT_UNREGISTER);
     }
 
     /** 注册用户 */
@@ -35,7 +55,7 @@ export default class UserService {
     /** 获取用户详情 */
     public async getUser({ user_id }: GetUserData): Promise<UserData> {
         this.checkHasUser.call(this, user_id);
-        return await this.userModel.getUserData(DataTable.USERINFO_TABLE, { user_id });
+        return await this.userModel.getOnce(DataTable.USERINFO_TABLE, { user_id });
     }
 
     /** 获取所有用户 */
@@ -66,7 +86,14 @@ export default class UserService {
     }
 
     /** 返回的消息 */
-    private returnMsg(code: number): UserResponse<UserData> {
-        return { data: this._data, code: code, prompt: UserStatus.message };
+    private returnMsg(code: number, isToken: string = ''): UserResponse<UserData> {
+        if (isToken) {
+            return { data: this._data, code: code, prompt: UserStatus.message, token: isToken };
+        }
+        if (this._data && this._data.length) {
+            return { data: this._data, code: code, prompt: UserStatus.message };
+        } else {
+            return { code: code, prompt: UserStatus.message };
+        }
     }
 }

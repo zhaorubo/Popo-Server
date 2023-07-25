@@ -1,6 +1,6 @@
 import Router from 'koa-router';
 const router = new Router();
-import { UserApi, ArticleApi } from '../config/types.ts';
+import { UserApi, ArticleApi } from '../config/Enum.ts';
 
 /** 业务入口模块导入 */
 import userApi from '../api/userApi.ts';

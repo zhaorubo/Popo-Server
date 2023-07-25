@@ -16,7 +16,7 @@ export default abstract class Controller {
 
     /** 检查请求字段 */
     public checkKeys<T>(reqData: T, keys: string[]): string[] | null {
-        if (!reqData) return null;
+        if (!reqData || !keys) return null;
         let notKeys: string[] | null = null;
         keys.forEach((value: string) => {
             if (!reqData[value]) {

@@ -85,6 +85,10 @@ export class UserStatus extends Status {
         this.message = '账号状态异常，请联系管理员';
         return 250008;
     }
+    public static get TOKEN_ERROR(): number {
+        this.message = 'token验证失败';
+        return 250009;
+    }
 }
 
 /** 文章接口状态 */

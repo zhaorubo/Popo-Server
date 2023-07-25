@@ -1,9 +1,6 @@
 import { Container } from 'typedi';
-import ArticleController from '../controllers/ArticleController.ts';
 import { ArticleApi } from '../config/types.ts';
 import { RouterContext } from 'koa-router';
-let articleController = Container.get(ArticleController);
-
 /** 用户业务入口 */
 export default {
     /** 创建文章 */
@@ -19,11 +16,7 @@ export default {
     },
 
     /** 获取全部文章 */
-    [ArticleApi.GETALL_ARTICLE]: async (ctx: RouterContext) => {
-        ctx.body = await articleController.artGetAll(ctx)
-        return;
-    },
-
+    [ArticleApi.GETALL_ARTICLE]: () => { },
     /** 获取单个文章 */
     [ArticleApi.GET_ARTICLE]: async (ctx: RouterContext) => {
         ctx.body = await articleController.artGet(ctx)

@@ -34,7 +34,7 @@ export default class BaseModel {
         }
     }
     /** 查询 */
-    public async where(table: string, params: QueryUser) {
+    public async where(table: string, params: any) {
         let result = await sql.table(table).where(params).select(true).exec();
         return result;
     }
@@ -51,7 +51,7 @@ export default class BaseModel {
         }
     }
     /** 更新 */
-    public async update(table: string, where: QueryUser, params: QueryUser) {
+    public async update(table: string, where: any, params: any) {
         let result = await sql.table(table).data(params).where(where).update(true).exec();
         return result;
     }
@@ -60,8 +60,8 @@ export default class BaseModel {
         return await sql[method](data).table(table).select(true).exec();
     }
     /** 唯一id查询是否存在 */
-    public async isHasById(table: string, key: UserDataKeys, value: any): Promise<boolean> {
+    public async isHasById(table: string, key: string, value: string): Promise<boolean> {
         let result = await sql.table(table).limit(1).where(`${key}=${value}`).select(true).exec();
-        return result && result.length;
+        return result && !!result.length;
     }
 }
