@@ -26,6 +26,6 @@ export declare type UserData = {
     loginId: string;
     user_name: string;
     user_id: number;
-    article_id: string;
+    article_id: number;
     password: string;
 };

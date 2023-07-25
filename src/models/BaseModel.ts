@@ -1,6 +1,7 @@
 import { init, exec, sql, transaction } from 'mysqls';
 import { Service } from 'typedi';
 import { QueryUser, UserDataKeys } from '../types/user';
+import { QueryArticle, QueryComment } from '../types/article';
 import { ResultSetHeader } from '../types/project';
 
 /** 数据库在这里接入 */
@@ -41,12 +42,12 @@ export default class BaseModel {
      * 删除
      * @return 成功返回true，失败返回false
      */
-    public async delete(table: string, params: QueryUser): Promise<ResultSetHeader> {
+    public async delete(table: string, params: QueryUser | QueryArticle | QueryComment): Promise<boolean> {
         try {
-            let result = await sql.table(table).where(params).delet(true).exec();
-            return result;
+            await sql.table(table).where(params).delet(true).exec();
+            return true;
         } catch (error) {
-            return error;
+            return false;
         }
     }
     /** 更新 */

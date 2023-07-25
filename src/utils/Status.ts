@@ -86,3 +86,15 @@ export class UserStatus extends Status {
         return 250008;
     }
 }
+
+/** 文章接口状态 */
+export class ArticleStatus extends Status {
+    public static get ACCOUNT_REPEAT(): number {
+        this.message = '文章已经存在';
+        return 250001;
+    }
+    public static get ACCOUNT_UNREGISTER(): number {
+        this.message = '文章不存在';
+        return 250002;
+    }
+}
